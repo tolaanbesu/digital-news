@@ -12,16 +12,14 @@ export default function Post(){
     const router = useRouter();
     const [items, setItems] = useState<any | []>([]);
 
-    const fetchItems = async()=>{
-        try{
-            const response = await fetch('/api/postitems');
-            const data = await response.json();
-            console.log(data)
-            setItems(data);
-        }catch(error){
-            console.log(`Error fetching data: ${error}`)
-        }
-    }
+    const fetchItems = ()=>{
+
+          fetch('/api/postitems')
+          .then(res=>res.json())
+          .then(data=>setItems(data))
+          .catch(e=>console.log(e.message))
+    };
+
     useEffect(()=>{
         fetchItems();
     },[])
@@ -30,11 +28,33 @@ export default function Post(){
     return(
     <section id="posts" className='posts'>
       <div className="container" data-aos='fade-up'>
-        {items.length > 0 ? (
-          items.map((item, index) => <PostitemOne key={index} item={item} />)
-        ) : (
-          <p>No posts found.</p>
-        ) }
+        <div className="row g-5">
+          <div className="col-lg-4">
+           
+          </div>
+          <div className="col-lg-8">
+            <div className="row g-5">
+            <div className="col-lg-4">
+              {items && items.length > 0 && (
+                  items.filter((item:{ trending:boolean,top:boolean})=>!item.trending &&!item.top).slice(0,3)
+                  .map((item) => <PostitemOne key={item._id} item={item} large={false}/>)
+                )  
+              }
+            </div>
+            <div className="col-lg-4">
+              {items && items.length > 0 && (
+                  items.filter((item:{ trending:boolean,top:boolean})=>!item.trending &&!item.top).slice(3,6)
+                  .map((item) => <PostitemOne key={item._id} item={item} large={false}/>)
+                )  
+              }
+            </div>
+            <div className="col-lg-4"></div>
+
+          </div>
+          </div>
+          
+        </div>
+        
       </div>
     </section>)
 }
