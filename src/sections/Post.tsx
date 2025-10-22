@@ -50,14 +50,14 @@ export default function Post(){
           </div>
           <div className="col-lg-8">
             <div className="row g-5">
-            <div className="col-lg-4">
+            <div className="col-lg-4 border-start custom-border">
               {items && items.length > 0 && (
                   items.filter((item:{ trending:boolean,top:boolean})=>!item.trending &&!item.top).slice(0,3)
                   .map((item) => <PostitemOne key={item._id} item={item} large={false}/>)
                 )  
               }
             </div>
-            <div className="col-lg-4">
+            <div className="col-lg-4 border-start custom-border">
               {items && items.length > 0 && (
                   items.filter((item:{ trending:boolean,top:boolean})=>!item.trending &&!item.top).slice(3,6)
                   .map((item) => <PostitemOne key={item._id} item={item} large={false}/>)
@@ -65,13 +65,15 @@ export default function Post(){
               }
             </div>
             <div className="col-lg-4">
-               <h2>Trending</h2>
-               <ul>
-                {
-                  items && items.length > 0 && items.filter((item:{trending:boolean})=>item.trending)
-                  .map((item:{_id:string,title:string,author:string},index:number)=><TrendingPost key={item._id} item={item} index={index}/>)
-                }
-               </ul>
+              <div className="trending">
+                <h3>Trending</h3>
+                <ul className="trending-post">
+                  {
+                    items && items.length > 0 && items.filter((item:{trending:boolean})=>item.trending)
+                    .map((item:{_id:string,title:string,author:string},index:number)=><TrendingPost key={item._id} item={item} index={index}/>)
+                  }
+                </ul>
+              </div>
             </div>
 
           </div>
