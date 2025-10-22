@@ -2,6 +2,7 @@ import React from 'react';
 import './trendingPost.css';
 import Link from 'next/link';
 
+
 export default function TrendingPost({item, index}: {item:{_id:String,title:String,author:String},index:number}){
     return (
         <li>

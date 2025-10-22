@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import PostitemOne from '@/components/PostitemOne';
+import TrendingPost from '@/components/TrendingPost';
 
 import './post.css';
 
@@ -11,6 +12,7 @@ export default function Post(){
 
     const router = useRouter();
     const [items, setItems] = useState<any | []>([]);
+    const [item, setItem] = useState({});
 
     const fetchItems = ()=>{
 
@@ -20,8 +22,20 @@ export default function Post(){
           .catch(e=>console.log(e.message))
     };
 
+    const fetchItemById = async (id:any)=>{
+     try{
+        const res = await fetch(`api/postitems/${id}`);
+       const data = await res.json();
+       setItem(data);
+     }catch(error){
+      console.error('Error Fetching item:',error);
+     }
+       
+    }
+
     useEffect(()=>{
         fetchItems();
+        fetchItemById('68f8c27b9ce4651d8921a299');
     },[])
     
 
@@ -30,7 +44,9 @@ export default function Post(){
       <div className="container" data-aos='fade-up'>
         <div className="row g-5">
           <div className="col-lg-4">
-           
+           {
+             <PostitemOne item={item} large={true}/>
+           }
           </div>
           <div className="col-lg-8">
             <div className="row g-5">
@@ -48,7 +64,15 @@ export default function Post(){
                 )  
               }
             </div>
-            <div className="col-lg-4"></div>
+            <div className="col-lg-4">
+               <h2>Trending</h2>
+               <ul>
+                {
+                  items && items.length > 0 && items.filter((item:{trending:boolean})=>item.trending)
+                  .map((item:{_id:string,title:string,author:string},index:number)=><TrendingPost key={item._id} item={item} index={index}/>)
+                }
+               </ul>
+            </div>
 
           </div>
           </div>
