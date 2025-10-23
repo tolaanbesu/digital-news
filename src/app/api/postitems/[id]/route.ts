@@ -1,11 +1,12 @@
 import dbConnect from "../../../../../config/db";
 import PostItem from "../../../../../models/PostItem";
+import { NextRequest } from "next/server";
 
 dbConnect();
 
-export async function GET(request: Request,{params}:{params:{id:string}}){
+export async function GET(request: NextRequest,context:{params:{id:string}}){
 
-    const {id} = params;
+    const {id} = await context.params;
     
     const post = await PostItem.findById(id).select('-__v');
 
