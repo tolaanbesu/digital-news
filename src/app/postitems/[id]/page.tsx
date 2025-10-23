@@ -1,9 +1,11 @@
 'use client'
-import { useParams } from 'next/navigation'
+import { useParams,useRouter} from 'next/navigation'
 import React, { useState, useEffect } from 'react'
 import './style.css';
 import PreLoader from '@/components/PreLoader'
 import SidePostItem from '@/components/SidePostItem';
+import Link from 'next/link'
+
 
 export interface PostProps {
     _id: string;
@@ -17,6 +19,7 @@ export interface PostProps {
 }
 
 export default function PostItem() {
+    const router = useRouter()
 
     const { id } = useParams();
     const [item, setItem] = useState<PostProps | null>(null); // Start as null
@@ -50,8 +53,8 @@ export default function PostItem() {
             const response = await fetch('/api/postitems');
             const data = await response.json();
             setItems(data);
-        } catch (error) {
-            console.log(error.message);
+        } catch (e:any) {
+            console.log(e.message);
         }
     };
 
@@ -70,6 +73,23 @@ export default function PostItem() {
 
     // Short-circuit rendering until item is fetched
     if (!item) return <PreLoader />
+
+    const handledeletepost = async(id:any)=>{
+        try {
+            const res = await fetch(`/api/postitems/${id}`,{
+                method: 'DELETE',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+            })
+            if(res.status==200){
+                console.log("succcess")
+               router.push('/postitems');
+            }
+        } catch (error) {
+            console.log("Error",error)
+        }
+    }
 
     return (
         <main id="main">
@@ -103,6 +123,17 @@ export default function PostItem() {
                                         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                                     </figcaption>
                                 </figure>
+
+                                <div className="d-flex justify-content-center gap-4">
+                                    <a onClick={()=>handledeletepost(id)} className="btn btn-primary">
+                                        <i className="bi bi-trash"></i>
+                                    </a>
+                                    <Link 
+                                    href={`/createpostitems/${id}`}className="btn btn-primary">
+                                    <i className="bi bi-pen"></i>
+                                    </Link>
+
+                                </div>
                             </div>
                         </div>
 
