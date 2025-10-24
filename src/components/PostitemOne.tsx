@@ -6,7 +6,14 @@ export default function PostitemOne({item, large}){
     return (
   <div className={`post-entry-1 ${large ? 'lg' : undefined}`}>
     <Link href={`postitems/${item._id}`}>
-      <img src={`/${item.img}`} alt="" className="img-fluid" />
+      {/* <img src={`/${item.img}`} alt="" className="img-fluid" /> */}
+      <img
+        src={item.img ? (item.img.startsWith('http') ? item.img : `/${item.img}`) : '/placeholder.jpg'}
+        alt={item.title || 'Post Image'}
+        className="img-fluid"
+      />
+
+
     </Link>
 
     <div className="post-meta">

@@ -1,29 +1,35 @@
 'use client'
-import React,{useEffect, useState} from 'react'
-import './style.css'
+import React, {useState, useEffect, use} from 'react'
+import {initalState} from '../app/createpostitems/page'
+import '../app/createpostitems/style.css'
 
-export const initalState = {
-        title: '',
-        img:'',
-        category:'',
-        author:'',
-        brief:'',
-        validate:''
-    };
-
-export default function CreatePostItem() {
+interface EditPostIemProps {
+  id: string;
+}
 
 
-
+export default function EditPostIem({id}:EditPostIemProps) {
+    
     const [post, setPost] = useState(initalState);
 
-    const handlePostChange = (e: React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>)=>{
-        const {name, value} = e.target;
-        setPost({...post,[name]:value, validate: ''})
-    }
+    const getItembyId = ()=>{
+         fetch(`/api/postitems/${id}`)
+         .then(res=>res.json())
+         .then(data=>setPost(data))
+         .catch(e=>console.log(e.message))
+    };
 
-    const handleFormSubmit = async(e:React.FormEvent<HTMLFormElement>)=>{
-        e.preventDefault();
+    useEffect(()=>{
+        getItembyId()
+    },[]);
+
+    const handlePostChange = (e: React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>)=>{
+            const {name, value} = e.target;
+            setPost({...post,[name]:value, validate: ''})
+        }
+
+    const handleFormSubmit = async (e:React.FormEvent<HTMLFormElement>)=>{
+       e.preventDefault();
         if(
             post.title===""||
             post.img===""||
@@ -34,8 +40,8 @@ export default function CreatePostItem() {
             }
 
             try{
-               const response = await fetch('/api/postitems',{
-                 method: "POST",
+               const response = await fetch(`/api/postitems/${id}`,{
+                 method: "PUT",
                  headers: {
                     'Content-Type':'application/json'
                  },
@@ -44,20 +50,15 @@ export default function CreatePostItem() {
 
                setPost({...post, validate:'loading'});
                
-               if(response.status===201){
-
-                setPost((prev)=>(
-                 {...prev,title:'',img:'',
-                  category:'',author:'',brief:'',validate: 'success'
-                 }
-                ))
-                // setPost({...post, validate: 'success'})
+               if(response.ok){
+                
+                setPost({...post, validate: 'success'})
+                
                }
             }catch(error){
                setPost({...post, validate:'error'})
             }
-    }
-         
+    };
   return (
     <main id="main">
       <section className="create-post-content">
@@ -67,7 +68,7 @@ export default function CreatePostItem() {
               <div className="row d-flex justify-content-center mt-5">
                 <div className="col-lg-12">
                   <div className="col-lg-12 text-center mb-5">
-                    <h1 className="page-title">Create New Post</h1>
+                    <h1 className="page-title">Edit Post</h1>
                   </div>
                 </div>
                 <form onSubmit={handleFormSubmit}>
@@ -128,7 +129,7 @@ export default function CreatePostItem() {
                             )}
                             {post.validate === 'success'&&(
                                 <div className="sent-message">
-                                your news was posted successfully. Thank you!</div>
+                                your edit was posted successfully. Thank you!</div>
                             )}
                             {post.validate === 'error'&&(
                                 <div className="error-message">Server Error</div>
@@ -145,5 +146,6 @@ export default function CreatePostItem() {
         </div>
       </section>
     </main>
-  );
+  )
 }
+

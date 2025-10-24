@@ -54,3 +54,27 @@
   visibility: visible;
   opacity: 1;
 }
+
+.search-results {
+    margin-top: 0.5rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0.5rem;
+}
+
+.search-results li {
+    padding: 0.5rem;
+}
+
+.search-results li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.search-results li:hover {
+    background-color: #f0f0f0;
+}
