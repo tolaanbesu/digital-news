@@ -11,6 +11,9 @@ const PostItemSchema = new mongoose.Schema({
     trending : {type: Boolean, default: false},
 }, {timestamps: true});
 
+
+
 const PostItem = mongoose.models.PostItem || mongoose.model('PostItem', PostItemSchema);
+
 
 export default PostItem;
