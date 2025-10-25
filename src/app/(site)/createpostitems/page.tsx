@@ -1,6 +1,9 @@
 'use client'
-import React,{useEffect, useState} from 'react'
+import React,{ useEffect, useState} from 'react'
+import {useSession} from "next-auth/react"
+import { useRouter } from "next/navigation";
 import './style.css'
+import PreLoader from '@/components/PreLoader';
 
 export const initalState = {
         title: '',
@@ -13,7 +16,19 @@ export const initalState = {
 
 export default function CreatePostItem() {
 
+    const {data:session, status} = useSession();
+    const router = useRouter();
 
+    useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    } else if (session?.user?.role !== "admin") {
+      router.push("/login");
+    }
+  }, [status, session, router]);
+
+  if (status === "loading") return <PreLoader />
+  if (!session || session?.user?.role !== "admin") return null;
 
     const [post, setPost] = useState(initalState);
 

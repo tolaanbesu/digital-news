@@ -100,7 +100,7 @@ section {
 
 .not-found {
   padding: 0;
-  background: url('../../public/assets/img/not-found-bj.jpg');
+  background: url('../../../public/assets/img/not-found-bj.jpg');
   background-position: center;
   background-size: cover;
 }
@@ -136,3 +136,16 @@ section {
 .mb-4 {
   margin-bottom: 1.5rem !important;
 }
+/* app/globals.css */
+.login-bg {
+  background-color: #f8f9fa; /* same as Bootstrap bg-light */
+  min-height: 100vh;
+}
+.login-body {
+  font-family: 'EB Garamond', serif;
+  background-color: #f8f9fa; /* equivalent to bg-light */
+  min-height: 100vh;
+}
+
+
+
