@@ -6,8 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 
 type ProvidersProps = {
   children: React.ReactNode
-  // Optional: pass a session if you fetch it on the server and want to hydrate
-  session?: any
+  session?: import('next-auth').Session | null
 }
 
 

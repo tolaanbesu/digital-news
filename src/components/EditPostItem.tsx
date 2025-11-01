@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
-import { initalState } from "../app/(site)/createpostitems/page";
+import React, { useState, useEffect } from "react";
+import { initalState } from "../app/createpostitems/page";
 import "../app/createpostitems/style.css";
 
 interface EditPostIemProps {
@@ -10,16 +10,15 @@ interface EditPostIemProps {
 export default function EditPostIem({ id }: EditPostIemProps) {
   const [post, setPost] = useState(initalState);
 
-  const getItembyId = () => {
-    fetch(`/api/postitems/${id}`)
-      .then((res) => res.json())
-      .then((data) => setPost(data))
-      .catch((e) => console.log(e.message));
-  };
-
   useEffect(() => {
+    const getItembyId = () => {
+      fetch(`/api/postitems/${id}`)
+        .then((res) => res.json())
+        .then((data) => setPost(data))
+        .catch((e) => console.log(e.message));
+    };
     getItembyId();
-  }, []);
+  }, [id]);
 
   const handlePostChange = (
     e:
@@ -57,6 +56,7 @@ export default function EditPostIem({ id }: EditPostIemProps) {
         setPost({ ...post, validate: "success" });
       }
     } catch (error) {
+      console.error(error);
       setPost({ ...post, validate: "error" });
     }
   };

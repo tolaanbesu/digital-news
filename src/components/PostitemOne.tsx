@@ -1,48 +1,87 @@
 import React from 'react';
-import Link from 'next/link'
-import './postitemOne.css'
+import Link from 'next/link';
+import Image from 'next/image';
+import './postitemOne.css';
 
-export default function PostitemOne({item, large}){
-    return (
-  <div className={`post-entry-1 ${large ? 'lg' : undefined}`}>
-    <Link href={`postitems/${item._id}`}>
-      {/* <img src={`/${item.img}`} alt="" className="img-fluid" /> */}
-      <img
-        src={item.img ? (item.img.startsWith('http') ? item.img : `/${item.img}`) : '/placeholder.jpg'}
-        alt={item.title || 'Post Image'}
-        className="img-fluid"
-      />
+type PostItem = {
+  img?: string;
+  avatar?: string;
+  _id?: string;
+  title?: string;
+  category?: string;
+  date?: string | number | Date;
+  brief?: string;
+  author?: string;
+};
 
+type PostitemOneProps = {
+  item: PostItem;
+  large?: boolean;
+};
 
-    </Link>
+export default function PostitemOne({ item, large }: PostitemOneProps) {
+  const imgSrc =
+    item.img && typeof item.img === 'string' && item.img.length > 0
+      ? item.img.startsWith('http')
+        ? item.img
+        : `/${item.img}`
+      : '/placeholder.jpg';
 
-    <div className="post-meta">
-      <span className="date">{item.category}</span>
-      <span className="mx-1">
-        <i className="bi bi-dot"></i>
-      </span>
-      <span>{new Date(item.date).toLocaleDateString('en-US')}</span>
-    </div>
+  const avatarSrc =
+    item.avatar && typeof item.avatar === 'string' && item.avatar.length > 0
+      ? item.avatar.startsWith('http')
+        ? item.avatar
+        : `/${item.avatar}`
+      : null;
 
-    <h2>
-      <Link href={`postitems/${item._id}`}>{item.title}</Link>
-    </h2>
+  return (
+    <div className={`post-entry-1 ${large ? 'lg' : undefined}`}>
+      <Link href={`postitems/${item._id}`}>
+        <Image
+          src={imgSrc}
+          alt={item.title || 'Post Image'}
+          width={600}
+          height={400}
+          className="img-fluid"
+          style={{ objectFit: 'cover' }}
+        />
+      </Link>
 
-    {large ? (
-      <>
-      <p className="mb-4 d-block">{item.brief}</p>
-
-      <div className="d-flex align-items-center author">
-      <div className="photo">
-        {item.avatar && <img src={item.avatar} alt="" className="img-fluid" />}
+      <div className="post-meta">
+        <span className="date">{item.category}</span>
+        <span className="mx-1">
+          <i className="bi bi-dot"></i>
+        </span>
+        <span>{item.date ? new Date(item.date).toLocaleDateString('en-US') : ''}</span>
       </div>
-      <div className="name">
-        <h3 className="m-0 p-0">{item.author}</h3>
-      </div>
-    </div>
-      </>
-    ) : null}
-  </div>
-);
 
-}                    
+      <h2>
+        <Link href={`postitems/${item._id}`}>{item.title}</Link>
+      </h2>
+
+      {large ? (
+        <>
+          <p className="mb-4 d-block">{item.brief}</p>
+
+          <div className="d-flex align-items-center author">
+            <div className="photo">
+              {avatarSrc && (
+                <Image
+                  src={avatarSrc}
+                  alt={item.author || ''}
+                  width={50}
+                  height={50}
+                  className="img-fluid"
+                  style={{ borderRadius: '50%' }}
+                />
+              )}
+            </div>
+            <div className="name">
+              <h3 className="m-0 p-0">{item.author}</h3>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
+}

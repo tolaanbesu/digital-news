@@ -1,5 +1,5 @@
 'use client'
-import React,{useEffect, useState} from 'react';
+import React,{ useState} from 'react';
 
 
 const initalState = {
@@ -32,7 +32,7 @@ export default function Contact() {
 
     })
     if(res.ok){
-      setInfo((prev) => ({ ...initalState, validate: true }));
+      setInfo(() => ({ ...initalState, validate: true }));
 
       setTimeout(() => {
       setInfo(initalState);
@@ -151,7 +151,7 @@ export default function Contact() {
                 onChange={handleChange}
                 placeholder="Message"
                 required
-                rows="3"
+                rows={3}
               ></textarea>
             </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { PostProps } from "@/app/(site)/postitems/[id]/page";
+import { PostProps } from "@/app/postitems/[id]/page";
 import Link from "next/link";
 
 export default function SidePostItem({ item }: { item: PostProps }) {

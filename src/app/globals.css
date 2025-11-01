@@ -100,7 +100,7 @@ section {
 
 .not-found {
   padding: 0;
-  background: url('../../../public/assets/img/not-found-bj.jpg');
+  background: url('/assets/img/not-found-bj.jpg');
   background-position: center;
   background-size: cover;
 }
