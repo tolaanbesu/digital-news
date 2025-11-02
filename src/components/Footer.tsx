@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo } from "react";
 import "./footer.css";
 
 // Demo recent posts data. Replace with real data as needed.
@@ -39,7 +38,6 @@ const recentPosts = [
 ];
 
 export default function Footer() {
-  const year = useMemo(() => new Date().getFullYear(), []);
 
   return (
     <footer className="footer">

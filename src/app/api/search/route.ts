@@ -24,9 +24,9 @@ export async function GET(req:Request){
       return NextResponse.json(results);
     } catch (err) {
         console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
     
-
      
 }

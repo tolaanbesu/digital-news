@@ -1,96 +1,55 @@
-'use client'
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
 
-export default function About() {
+const AboutCreative = () => {
+  const features = [
+    { title: "Global Coverage", desc: "Stay informed with news from around the world.", img: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2xvYmFsfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500" },
+    { title: "Verified Sources", desc: "We ensure all news is accurate and credible.", img: "https://images.unsplash.com/photo-1614064642261-3ccbfafa481b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dmVyaWZpZWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500" },
+    { title: "Real-Time Updates", desc: "Never miss breaking news with instant notifications.", img: "https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVhbCUyMHRpbWV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500" },
+    { title: "Community Insights", desc: "Engage with readers and share perspectives.", img: "https://images.unsplash.com/photo-1461088945293-0c17689e48ac?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNvbW11bml0eXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500" },
+  ];
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16 pt-32">
-      {/* Title */}
-      <h1 className="text-4xl font-bold text-center mb-12">About Us</h1>
-
-      {/* Image Section */}
-      <div className="w-full mb-12 flex justify-center">
-        <div className="relative w-full h-80 sm:h-96 md:w-3/4 lg:w-2/3">
-          <Image
-            src="/about-image.jpg" // replace with your image path
-            alt="About Us"
-            fill
-            className="object-cover rounded-lg shadow-lg"
-          />
-        </div>
-      </div>
-
-      {/* Our Story Section */}
-      <div className="mb-12 ">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Our Story</h2>
-        <p className="text-gray-700 leading-relaxed text-center">
-          DigitalNews was founded with a mission to provide timely, accurate, and engaging news to our readers. 
-          We believe in the power of information and strive to cover topics ranging from technology, sports, fashion, 
-          business, and culture. Our team of dedicated journalists ensures that every story is verified, insightful, 
-          and presented in a reader-friendly format.
+    <div className="container my-5" style={{paddingTop:"100px"}}>
+      <header className="text-center mb-5">
+        <h1 className="display-4">About NewsPulse</h1>
+        <p className="lead">
+          Innovating the way you consume news – insightful, engaging, and always on time.
         </p>
+      </header>
+
+      <div className="row">
+        {features.map((feature, idx) => (
+          <div key={idx} className="col-md-6 col-lg-3 mb-4">
+            <div className="card h-100 text-center shadow border-0">
+              <div className="card-body">
+                <div className="mb-3">
+                  <Image
+                    src={feature.img}
+                    alt={feature.title}
+                    width={80}
+                    height={80}
+                    className="img-fluid rounded"
+                  />
+                </div>
+                <h5 className="card-title">{feature.title}</h5>
+                <p className="card-text">{feature.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Our Mission Section */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Our Mission</h2>
-        <p className="text-gray-700 leading-relaxed text-center">
-          We aim to keep our audience informed and inspired. By embracing innovation, creativity, and integrity, 
-          we deliver news that matters. Whether it is breaking news, in-depth analyses, or feature stories, 
-          our mission is to provide a reliable platform for our readers.
+      <section className="mt-5 text-center">
+        <h2>Our Mission</h2>
+        <p className="lead mx-auto" style={{ maxWidth: "700px" }}>
+          To create a platform where news is not just delivered but experienced. We
+          combine technology, credible journalism, and community engagement to ensure
+          our readers get the most out of every story.
         </p>
-      </div>
-
-      {/* Team Section */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-8 text-center">Meet the Team</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {/* Team Member */}
-          <div className="text-center">
-            <div className="w-32 h-32 mx-auto mb-4 relative">
-              <Image
-                src="/team1.jpg"
-                alt="John Doe"
-                fill
-                className="object-cover rounded-full"
-              />
-            </div>
-            <h3 className="font-semibold">John Doe</h3>
-            <p className="text-gray-500">Founder & CEO</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-32 h-32 mx-auto mb-4 relative">
-              <Image
-                src="/team2.jpg"
-                alt="Jane Smith"
-                fill
-                className="object-cover rounded-full"
-              />
-            </div>
-            <h3 className="font-semibold">Jane Smith</h3>
-            <p className="text-gray-500">Editor-in-Chief</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-32 h-32 mx-auto mb-4 relative">
-              <Image
-                src="/team3.jpg"
-                alt="Alice Johnson"
-                fill
-                className="object-cover rounded-full"
-              />
-            </div>
-            <h3 className="font-semibold">Alice Johnson</h3>
-            <p className="text-gray-500">Senior Journalist</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Note */}
-      <div className="text-center text-gray-500">
-        <p>© {new Date().getFullYear()} DigitalNews. All rights reserved.</p>
-      </div>
+      </section>
     </div>
-  )
-}
+  );
+};
+
+export default AboutCreative;

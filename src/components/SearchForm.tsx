@@ -1,26 +1,40 @@
 'use client'
-import React,{useState, useEffect} from 'react';
-import './searchForm.css'
+import React, { useState, useEffect } from 'react';
+import './searchForm.css';
+
+interface PostItem {
+  _id: string;
+  title: string;
+}
+
 export default function SearchForm({
     active, 
     formOpen
 }:{
-    active:boolean;
-    formOpen:object|any
-}){
+    active: boolean;
+    formOpen: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}) {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<any[]>([]);
+    const [result, setResult] = useState<PostItem[]>([]);
     
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-        setQuery(e.target.value)
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
     }
 
-    const fetchResult = async()=>{
+    
+
+    useEffect(() => {
+        if (!query) {
+            setResult([]);
+            return;
+        }
+
+        const fetchResult = async () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
-            const data = await res.json();
+            const data: PostItem[] = await res.json();
             setResult(data);
         } catch (error) {
             console.error(error);
@@ -28,33 +42,27 @@ export default function SearchForm({
             setLoading(false);
         }
     }
-
-    useEffect(()=>{
-        if(!query){
-            setResult([]);
-            return;
-        }
         const timeout = setTimeout(fetchResult, 300);
         return () => clearTimeout(timeout);
-    }, [query]);
+    }, [query]); 
 
     return (
-    <div className={`search-form-wrap js-search-form-wrap ${active ? 'active' : undefined}`}>
-        <form className="search-form">
-            <span className='icon bi-search'></span>
-            <input 
-              type='text' 
-              value={query}
-              placeholder='Search' 
-              onChange={handleChange}
-              className="form-control"
-            />
-            <button className='btn js-search-close' onClick={formOpen}>
-                <span className="bi-x"></span>
-            </button>
+        <div className={`search-form-wrap js-search-form-wrap ${active ? 'active' : undefined}`}>
+            <form className="search-form" onSubmit={e => e.preventDefault()}>
+                <span className='icon bi-search'></span>
+                <input 
+                  type='text' 
+                  value={query}
+                  placeholder='Search' 
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                <button className='btn js-search-close' onClick={formOpen}>
+                    <span className="bi-x"></span>
+                </button>
+            </form>
 
-        </form>
-        {/* Live results */}
+            {/* Live results */}
             {loading && <div className="loading">Searching...</div>}
             {result.length > 0 && (
                 <ul className="search-results">
@@ -65,5 +73,6 @@ export default function SearchForm({
                     ))}
                 </ul>
             )}
-    </div>)
+        </div>
+    );
 }

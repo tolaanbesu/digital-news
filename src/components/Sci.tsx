@@ -1,4 +1,4 @@
-import './sci.css'
+
 import {scis} from "@/data/data"
 export default function Sci(){
     return(

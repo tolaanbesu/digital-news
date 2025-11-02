@@ -67,13 +67,14 @@ export default function PostitemOne({ item, large }: PostitemOneProps) {
             <div className="photo">
               {avatarSrc && (
                 <Image
-                  src={avatarSrc}
-                  alt={item.author || ''}
-                  width={50}
-                  height={50}
-                  className="img-fluid"
-                  style={{ borderRadius: '50%' }}
-                />
+                    src={avatarSrc}
+                    alt={item.title || 'Post Image'}
+                    width={large ? 600 : 300}
+                    height={large ? 400 : 200}
+                    className="img-fluid"
+                    style={{ objectFit: 'cover' }}
+                  />
+
               )}
             </div>
             <div className="name">

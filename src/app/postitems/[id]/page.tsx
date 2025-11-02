@@ -1,6 +1,7 @@
 'use client'
 import { useParams,useRouter} from 'next/navigation'
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import './style.css';
 import PreLoader from '@/components/PreLoader'
 import SidePostItem from '@/components/SidePostItem';
@@ -38,25 +39,6 @@ export default function PostItem() {
         })));
     }
 
-    const fetchItemById = async () => {
-        try {
-            const response = await fetch(`/api/postitems/${id}`);
-            const data = await response.json();
-            setItem(data);
-        } catch (error) {
-            console.error("Error fetching data", error);
-        }
-    }
-
-    const fetchItems = async () => {
-        try {
-            const response = await fetch('/api/postitems');
-            const data = await response.json();
-            setItems(data);
-        } catch (e:any) {
-            console.log(e.message);
-        }
-    };
 
     const [formattedDate, setFormattedDate] = useState('');
 
@@ -67,27 +49,60 @@ export default function PostItem() {
     }, [item?.date]);
 
     useEffect(() => {
-        fetchItemById();
-        fetchItems();
-    }, [])
+        if (!id) return;
+
+        const load = async () => {
+            try {
+                const response = await fetch(`/api/postitems/${id}`);
+                const data = await response.json();
+                setItem(data);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            }
+
+            try {
+                const response = await fetch('/api/postitems');
+                const data = await response.json();
+                setItems(data);
+            } catch (error: unknown) {
+                // Narrow unknown to Error if possible, otherwise log the value
+                console.log((error as Error)?.message ?? String(error));
+            }
+        };
+
+        load();
+    }, [id])
+
 
     // Short-circuit rendering until item is fetched
     if (!item) return <PreLoader />
 
-    const handledeletepost = async(id:any)=>{
+    const imgSrc =
+    item.img && typeof item.img === 'string' && item.img.length > 0
+      ? item.img.startsWith('http')
+        ? item.img
+        : `/${item.img}`
+      : '/placeholder.jpg';
+
+    const handledeletepost = async (id: string | string[] | undefined) => {
+        const postId = Array.isArray(id) ? id[0] : id;
+        if (!postId) {
+            console.warn('No id provided for deletion');
+            return;
+        }
         try {
-            const res = await fetch(`/api/postitems/${id}`,{
+            const res = await fetch(`/api/postitems/${postId}`, {
                 method: 'DELETE',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json'
                 },
-            })
-            if(res.status==200){
+            });
+            if (res.status === 200) {
                 console.log("succcess")
                router.push('/postitems');
             }
         } catch (error) {
-            console.log("Error",error)
+            console.log("Error", error)
         }
     }
 
@@ -115,12 +130,23 @@ export default function PostItem() {
                                     {item.brief && item.brief.substring(1)}
                                 </p>
                                 <figure className="my-4">
-                                    <img src={`/${item.img}`} alt="" className="img-fluid" />
+                    
+                                    <Image src={imgSrc} alt={item.title|| "image"} width={700} height={500} className="img-fluid"/>
                                     <figcaption className='mt-2 text-muted'>
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+                                        sunt in culpa qui officia deserunt mollit anim id est laborum.Curabitur pretium tincidunt lacus. Nulla gravida orci a odio, vitae 
+                                        lobortis arcu sodales at. Aliquam in felis sit amet augue laoreet fringilla. Aliquam erat volutpat. Nulla facilisi. Suspendisse potenti. 
+                                        Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero quis massa. Fusce luctus vestibulum augue ut aliquet. 
+                                        Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac.Morbi ligula felis, sagittis at erat ut, varius tincidunt nisl. Cras ultricies 
+                                        ligula sed magna dictum porta. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla porttitor accumsan tincidunt. Sed porttitor lectus nibh. 
+                                        Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Proin eget tortor risus. Donec rutrum congue leo eget malesuada.
+
                                     </figcaption>
                                 </figure>
 
@@ -169,15 +195,15 @@ export default function PostItem() {
                                     <a
                                         target="_blank"
                                         rel="noreferrer noopener"
-                                        href="https://www.youtube.com/watch?v=uHNS_ZhI62c"
+                                        href="https://www.youtube.com/watch?v=-BJF4BmbsZ8&list=PLLBWNs6n7YMUihYEVNEUGB29t3Rfq6bTa"
                                         className="link-video"
                                     >
                                         <span className="bi-play-fill"></span>
-                                        <img
-                                            src="/assets/img/post-landscape-3.jpg"
-                                            alt=""
-                                            className="img-fluid"
-                                        />
+                                        <Image 
+                                         src="/assets/img/post-landscape-3.jpg" alt='' 
+                                         width={500}
+                                         height={300}
+                                         className='img-fluid' />
                                     </a>
                                 </div>
                             </div>

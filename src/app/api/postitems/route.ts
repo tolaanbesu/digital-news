@@ -1,11 +1,12 @@
 import dbConnect from "../../../../config/db";
 import PostItem from "../../../../models/PostItem";
+import { NextResponse } from "next/server";
 
 dbConnect();
 
 export async function GET(){
     const items = await PostItem.find().select('-__v');
-    return Response.json(items)
+    return NextResponse.json(items)
 
 }
 
@@ -15,12 +16,12 @@ export async function POST(request: Request){
     try{
 
         const newPostItem =await new PostItem({...body}).save();
-        return new Response (JSON.stringify(newPostItem), {
+        return new NextResponse (JSON.stringify(newPostItem), {
             headers:  {'Content-Type': 'application/json'},
             status: 201
         });
     }catch(error){
-        return new Response (JSON.stringify({message: 'Failed to create post item', error}), {
+        return new NextResponse (JSON.stringify({message: 'Failed to create post item', error}), {
             headers:  {'Content-Type': 'application/json'},
             status: 500
         });

@@ -8,7 +8,7 @@ export async function POST(req: Request){
     try {
         const body = await req.json();
 
-        const newContact = new ContactInfo({...body}).save();
+        new ContactInfo({...body}).save();
 
         return NextResponse.json(
             {message:'Contact information submitted successfully.'}, 

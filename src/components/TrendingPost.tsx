@@ -3,7 +3,7 @@ import './trendingPost.css';
 import Link from 'next/link';
 
 
-export default function TrendingPost({item, index}: {item:{_id:String,title:String,author:String},index:number}){
+export default function TrendingPost({item, index}: {item:{_id:string,title:string,author:string},index:number}){
     return (
         <li>
             <Link href={`/postitems/${item._id}`}>

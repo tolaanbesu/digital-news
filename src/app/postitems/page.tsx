@@ -4,8 +4,12 @@ import PreLoader from '@/components/PreLoader'
 import PostitemOne from '@/components/PostitemOne';
 import PageTitle from '@/components/PageTitle';
 
+type PostItem = {
+  _id: string;
+}
+
 export default function PostItems() {
-     const [items, setItems] = useState([]);
+     const [items, setItems] = useState<PostItem[]>([]);
 
      const fetchItems = async()=>{
          
@@ -21,7 +25,7 @@ export default function PostItems() {
 
      useEffect(()=>{ 
        fetchItems()
-     }, [items])
+     }, [])
 
   return (
     <main id="main">

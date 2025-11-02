@@ -1,6 +1,7 @@
 'use client';
 
 import React, {useState} from "react";
+import Link from 'next/link'
 import './header.css'
 import Nav from './Nav';
 import Sci from './Sci';
@@ -18,19 +19,18 @@ export default function Header(){
 
     const handleToggleMenu = ()=>{
         setOn((prev)=>!prev);
-        let body: HTMLElement | any = document.querySelector('body');
-        body.classList.toggle('mobile-nav-active');
+        const body: HTMLElement | null = document.querySelector('body');
+        body?.classList.toggle('mobile-nav-active');
 
     }
 
-     
 
     return(<header id="header"
              className="header d-flex align-items-center fixed-top">
                 <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
-                    <a href="/" className="logo d-flex align-items-center">
-                    <h1>DigitalNews</h1>
-                    </a>
+                    <Link href="/" className="logo d-flex align-items-center">
+                      <h1>NewsPulse</h1>
+                    </Link>
                     <Nav />
                     <div className="position-relative">
                       <Sci />
