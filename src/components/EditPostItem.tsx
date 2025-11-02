@@ -1,11 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { initalState } from "../app/createpostitems/page";
 import "../app/createpostitems/style.css";
 
 interface EditPostIemProps {
   id: string;
 }
+
+const initalState = {
+        title: '',
+        img:'',
+        category:'',
+        author:'',
+        brief:'',
+        validate:''
+    };
 
 export default function EditPostIem({ id }: EditPostIemProps) {
   const [post, setPost] = useState(initalState);
