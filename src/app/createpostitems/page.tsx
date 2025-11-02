@@ -4,7 +4,10 @@ import React,{ useState} from 'react'
 import './style.css'
 
 
-export const initalState = {
+
+
+export default function CreatePostItem() {
+    const initalState = {
         title: '',
         img:'',
         category:'',
@@ -12,9 +15,6 @@ export const initalState = {
         brief:'',
         validate:''
     };
-
-export default function CreatePostItem() {
-
 
     const [post, setPost] = useState(initalState);
 
